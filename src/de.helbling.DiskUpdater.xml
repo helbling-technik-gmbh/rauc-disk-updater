@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<node name="/" xmlns:doc="http://www.freedesktop.org/dbus/1.0/doc.dtd">
+  <interface name="de.helbling.DiskUpdater.Bundle">
+    <method name="Install" />
+    <property name="version" type="s" access="read" />
+    <property name="path" type="s" access="read" />
+  </interface>
+
+  <interface name="de.helbling.DiskUpdater">
+    <!--Status=idle|scanning> -->
+    <property name="Status" type="s" access="read" />
+    <property name="DeviceCount" type="i" access="read" />
+  </interface>  
+</node>

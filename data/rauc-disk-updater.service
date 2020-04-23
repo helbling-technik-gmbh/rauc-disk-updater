@@ -1,0 +1,13 @@
+[Unit]
+Description=Disk updater for Rauc
+After=rauc.service local-fs.target
+Requires=rauc.service
+
+[Service]
+Type=dbus
+BusName=de.helbling.DiskUpdater
+ExecStart=/usr/bin/rauc-disk-updater --script /etc/rauc-disk-updater/hook.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

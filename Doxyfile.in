@@ -1,0 +1,5 @@
+PROJECT_NAME           = "RAUC Disk updater"
+PROJECT_BRIEF          = "The RAUC Disk updater is a daemon for automatically installing Rauc Bundles from USB drives and SD-cards"
+OUTPUT_DIRECTORY       = @CMAKE_CURRENT_BINARY_DIR@/docs/
+INPUT                  = @CMAKE_CURRENT_SOURCE_DIR@/src/ @CMAKE_CURRENT_SOURCE_DIR@/include/
+OPTIMIZE_OUTPUT_FOR_C  = YES

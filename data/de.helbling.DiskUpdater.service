@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=de.helbling.DiskUpdater
+Exec=/bin/false
+User=root
+SystemdService=rauc-disk-updater.service
