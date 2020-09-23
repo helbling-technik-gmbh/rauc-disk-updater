@@ -16,6 +16,22 @@ include_directories(${GIOUNIX_INCLUDE_DIRS})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+include(GNUInstallDirs)
+
+
+if (NOT DBUS_POLICY_DIR)
+  set(DBUS_POLICY_DIR ${CMAKE_INSTALL_DATADIR}/dbus-1/system.d)
+endif (NOT DBUS_POLICY_DIR)
+
+if (NOT DBUS_SYSTEM_UNITDIR)
+  set(DBUS_SYSTEM_UNITDIR ${CMAKE_INSTALL_DATADIR}/dbus-1/system-service)
+endif (NOT DBUS_SYSTEM_UNITDIR)
+
+if (NOT SYSTEMD_SYSTEM_UNITDIR)
+  set(SYSTEMD_SYSTEM_UNITDIR ${CMAKE_INSTALL_LIBDIR}/systemd/system)
+endif  (NOT SYSTEMD_SYSTEM_UNITDIR)
+
+
 if (BUILD_DOC)
 	# check if Doxygen is installed
 	find_package(Doxygen)
@@ -94,20 +110,20 @@ target_link_libraries(rauc-disk-updater
   ${LIBGUDEV_LIBRARIES}
 )
 
-install (TARGETS rauc-disk-updater DESTINATION /usr/bin/)
+# install binary
+install (TARGETS rauc-disk-updater DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-if (SYSTEMD_SYSTEM_UNITDIR)
-  install (FILES ${CMAKE_SOURCE_DIR}/data/rauc-disk-updater.service
-  	  DESTINATION ${SYSTEMD_SYSTEM_UNITDIR}/)
-endif (SYSTEMD_SYSTEM_UNITDIR)
+# install hook script
+install (FILES ${CMAKE_SOURCE_DIR}/data/hook.sh DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/rauc-disk-updater/)
 
-if (DBUS_POLICY_DIR)
-  install (FILES ${CMAKE_SOURCE_DIR}/data/de.helbling.DiskUpdater.conf
-  	  DESTINATION ${DBUS_POLICY_DIR}/)
-endif (DBUS_POLICY_DIR)
+# install systemd service file
+set(BINDIR ${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_BINDIR})
+set(SYSCONFDIR ${CMAKE_INSTALL_SYSCONFDIR})
+configure_file("data/rauc-disk-updater.service.in" "rauc-disk-updater.service" NEWLINE_STYLE UNIX)
+install (FILES ${CMAKE_CURRENT_BINARY_DIR}/rauc-disk-updater.service DESTINATION ${SYSTEMD_SYSTEM_UNITDIR}/)
 
-if (DBUS_SYSTEM_UNITDIR)
-  install (FILES ${CMAKE_SOURCE_DIR}/data/de.helbling.DiskUpdater.service
-  	  DESTINATION ${DBUS_SYSTEM_UNITDIR}/)
-endif (DBUS_SYSTEM_UNITDIR)
+# install dbus policy and service files
+install (FILES ${CMAKE_SOURCE_DIR}/data/de.helbling.DiskUpdater.conf DESTINATION ${DBUS_POLICY_DIR}/)
+install (FILES ${CMAKE_SOURCE_DIR}/data/de.helbling.DiskUpdater.service DESTINATION ${DBUS_SYSTEM_UNITDIR}/)
+
 

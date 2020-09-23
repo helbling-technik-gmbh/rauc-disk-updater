@@ -33,7 +33,7 @@ Compiling & Installation
 ```bash
 mkdir build
 cd build
-cmake .. 
+cmake -DCMAKE_INSTALL_PREFIX=/usr ..
 make
 make install
 systemctl enable --now rauc-disk-updater.service
@@ -64,8 +64,9 @@ The script is called after all mounted partitons of an attached device are
 searched through and minimum one bundle is found. The number of bundles is
 passed as variable `BUNDLES`. For each bundle with index `X`, the variables
 `BUNDLE_VERSION_X` and `BUNDLE_PATH_X` are passed. In order to trigger the
-installation of a bundle, the exit code of the script is to the index `X`. If
-the exist code is set to `0`, the installation will be aborted.
+installation of a bundle, the exit code of the script is set to the index `X`.
+If the exit code is set to `0`, the installation will be aborted. This is
+useful, if an installation is manually triggered via D-Bus.
 
 Following script automatically installs the bundle with highest version.
 

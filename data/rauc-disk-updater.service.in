@@ -6,7 +6,7 @@ Requires=rauc.service
 [Service]
 Type=dbus
 BusName=de.helbling.DiskUpdater
-ExecStart=/usr/bin/rauc-disk-updater --script /etc/rauc-disk-updater/hook.sh
+ExecStart=@BINDIR@/rauc-disk-updater --script @SYSCONFDIR@/rauc-disk-updater/hook.sh
 Restart=on-failure
 
 [Install]
